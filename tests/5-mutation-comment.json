@@ -1,0 +1,1 @@
+{"query":"mutation { createComment(input: { content: \"Great post!\", postId: \"1\" }) { id content author { username } post { id title } } }"}

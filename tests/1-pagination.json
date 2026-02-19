@@ -1,0 +1,1 @@
+{"query":"query { users { edges { node { id username role } } pageInfo { hasNextPage endCursor } } }"}

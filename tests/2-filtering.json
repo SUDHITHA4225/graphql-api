@@ -1,0 +1,1 @@
+{"query":"query { posts(published: true) { edges { node { id title published } } } }"}

@@ -1,0 +1,1 @@
+{"query":"mutation { createPost(input: { title: \"Test Post\", content: \"This is a test\", published: true }) { id title content author { username } } }"}

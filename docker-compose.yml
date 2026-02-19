@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: blog_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: blog_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./seeds:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - blog_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blog_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/blog_db
+      JWT_SECRET: your_super_secret_jwt_key_change_this_in_production
+      PORT: 4000
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+    networks:
+      - blog_network
+    restart: on-failure
+
+volumes:
+  postgres_data:
+
+networks:
+  blog_network:
+    driver: bridge

@@ -1,0 +1,3 @@
+{
+  "query": "query { users { edges { node { id username email role } } } }"
+}
